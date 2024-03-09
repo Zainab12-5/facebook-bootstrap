@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='bootstrap-5.3.2-dist/bootstrap-5.3.2-dist/css/bootstrap.min.css'>
+    <style>
+        #con {
+            background-color: #f0f2f5;
+        }
+        
+        .container {
+            padding: 3px;
+        }
+        
+        .inputdis {
+            display: inline-block;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+        
+        hr {
+            display: inline;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</head>
+
+<body>
+
+    <div id="con" class=" d-flex flex-column align-items-start  w-100">
+        <img class="  w-25 d-flex align-self-center " src="https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg" alt="Facebook">
+
+
+        <div class="container w-25 bg-white border rounded ">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-md-12">
+                    <form id="loginForm">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="text-center fs-5 ">Log in Facebook</h2>
+
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="form-group   mt-2  ">
+                            <div class="row">
+
+                                <!--<form id="loginForm">
+       
+     
+        <input type="submit" value="Log In">
+    </form>
+-->
+
+                                <div class="col-11 mt-2 ">
+                                    <input class="form-control ms-2 " type="email" placeholder="Mobile number or email address" id="email" name="email" required>
+                                    <span id="emailError" class="error"></span>
+
+                                </div>
+                                <div class="col-11 mt-2 ">
+                                    <input class="form-control ms-2" type="password" placeholder=" password" id="password" name="password" required>
+                                    <span id="passwordError" class="error"></span>
+
+                                </div>
+                                <div class="col-12 text-center ">
+
+                                    <input type="submit" value="Log In" class="btn btn-primary w-75 ms-2 mt-3 ">
+
+                                </div>
+                                <div class="col-12 text-center">
+
+                                    <div class="btn   text-primary mt-2"> Forgotten account?</div>
+                                </div>
+
+
+                                <div class="col-12 text-center">
+                                    <p> or</p>
+                                </div>
+
+                                <br>
+
+                                <div class="col-12 text-center">
+                                    <a href="finallocalsign.html" class="btn btn-success w-50">Creat New account </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <br><br>
+
+                    </form>
+                </div>
+
+
+                <!-------------------------------------------------->
+
+
+
+
+
+
+
+                <!--////////////////////////////////////////////-->
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <hr>
+    </div>
+
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').submit(function(event) {
+                $('.error').text('');
+
+
+                var email = $('#email').val();
+                var password = $('#password').val();
+
+                if (authenticateUser(email, password)) {
+                    displayStoredUserData(email);
+                } else {
+                    $('#emailError').text('Invalid email or password.');
+                    event.preventDefault();
+                }
+            });
+
+            function authenticateUser(email, password) {
+                var storedUserData = localStorage.getItem('userData');
+
+                if (storedUserData) {
+                    storedUserData = JSON.parse(storedUserData);
+
+                    return email === storedUserData.emailOrMobile && password === storedUserData.newPassword;
+
+
+                }
+
+
+                return false;
+            }
+
+            function displayStoredUserData(email) {
+                var storedUserData = localStorage.getItem('userData');
+
+                if (storedUserData) {
+                    storedUserData = JSON.parse(storedUserData);
+                    window.open('home.html');
+
+                    $('#displayData #storedEmail').text('Email: ' + storedUserData.email);
+                }
+            }
+        });
+    </script>
+
+
+
+    <script src='bootstrap-5.3.2-dist/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js'></script>
+    <script src='bootstrap-5.3.2-dist/bootstrap-5.3.2-dist/js/jquery-3.7.1.min.js'></script>
+    <script src='bootstrap-5.3.2-dist/bootstrap-5.3.2-dist/js/popper.min.js'></script>
+</body>
+
+</html>

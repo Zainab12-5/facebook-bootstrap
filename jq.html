@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <!-- Include jQuery -->
+</head>
+
+<body>
+    <form id="signupForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+        <span id="firstNameError" class="error"></span>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required>
+        <span id="surnameError" class="error"></span>
+
+        <label for="emailOrMobile">Email or Mobile:</label>
+        <input type="text" id="emailOrMobile" name="emailOrMobile" required>
+        <span id="emailOrMobileError" class="error"></span>
+
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required>
+        <span id="newPasswordError" class="error"></span>
+
+        <label for="dobDay">Date of Birth:</label>
+        <select id="dobDay" name="dobDay" required>
+                <option value="">Day</option>
+                <!-- Add options for days, you can customize this based on the number of days in a month -->
+              
+            </select>
+
+        <select id="dobMonth" name="dobMonth" required>
+                <option value="">Month</option>
+                
+            </select>
+
+        <select id="dobYear" name="dobYear" required>
+                <option value="">Year</option>
+             
+            </select>
+
+        <span id="dobError" class="error"></span>
+
+        <label>Gender:</label>
+        <label><input type="radio" name="gender" value="female"> Female</label>
+        <label><input type="radio" name="gender" value="male"> Male</label>
+        <label><input type="radio" name="gender" value="custom"> Custom</label>
+        <span id="genderError" class="error"></span>
+
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <div id="displayData">
+        <h2>Stored Data:</h2>
+        <p id="storedFirstName"></p>
+        <p id="storedSurname"></p>
+        <p id="storedEmailOrMobile"></p>
+        <p id="storedNewPassword"></p>
+        <p id="storedDOB"></p>
+        <p id="storedGender"></p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#signupForm').submit(function(event) {
+                // Reset error messages
+                $('.error').text('');
+
+                var firstName = $('#firstName').val();
+                if (!firstName) {
+                    $('#firstNameError').text('Please enter your first name.');
+                    event.preventDefault();
+                }
+
+                // Validate surname
+                var surname = $('#surname').val();
+                if (!surname) {
+                    $('#surnameError').text('Please enter your surname.');
+                    event.preventDefault();
+                }
+
+                // Validate email or mobile
+                var emailOrMobile = $('#emailOrMobile').val();
+                if (!emailOrMobile) {
+                    $('#emailOrMobileError').text('Please enter your email or mobile number.');
+                    event.preventDefault();
+                }
+
+                // Validate password
+                var newPassword = $('#newPassword').val();
+                if (newPassword.length < 6) {
+                    $('#newPasswordError').text('Password must be at least 6 characters long.');
+                    event.preventDefault();
+                }
+
+                // Validate date of birth
+                var dobDay = $('#dobDay').val();
+                var dobMonth = $('#dobMonth').val();
+                var dobYear = $('#dobYear').val();
+                if (!dobDay || !dobMonth || !dobYear) {
+                    $('#dobError').text('Please enter your complete date of birth.');
+                    event.preventDefault();
+                }
+
+                // Validate gender
+                var gender = $("input[name='gender']:checked").val();
+                if (!gender) {
+                    $('#genderError').text('Please select your gender.');
+                    event.preventDefault();
+                }
+
+                // If validation passes, store the data in local storage
+                if (!event.isDefaultPrevented()) {
+                    var userData = {
+                        firstName: firstName,
+                        surname: surname,
+                        emailOrMobile: emailOrMobile,
+                        newPassword: newPassword,
+                        dob: dobDay + '-' + dobMonth + '-' + dobYear,
+                        gender: gender
+                    };
+                    localStorage.setItem('userData', JSON.stringify(userData));
+
+                    alert('Sign-up data saved to local storage.');
+
+                    // Clear the form fields
+                    $('#firstName, #surname, #emailOrMobile, #newPassword, #dobDay, #dobMonth, #dobYear').val('');
+                    $("input[name='gender']").prop('checked', false);
+
+                    // Display the stored data
+                    //displayStoredData();
+                }
+            });
+
+            // Function to display stored data from local storage
+            function displayStoredData() {
+                var storedUserData = localStorage.getItem('userData');
+
+                if (storedUserData) {
+                    storedUserData = JSON.parse(storedUserData);
+
+                    $('#storedFirstName').text('First Name: ' + storedUserData.firstName);
+                    $('#storedSurname').text('Surname: ' + storedUserData.surname);
+                    $('#storedEmailOrMobile').text('Email or Mobile: ' + storedUserData.emailOrMobile);
+                    $('#storedNewPassword').text('New Password: ' + storedUserData.newPassword);
+                    $('#storedDOB').text('Date of Birth: ' + storedUserData.dob);
+                    $('#storedGender').text('Gender: ' + storedUserData.gender);
+                    // $('#storedDOB').text
+                    $('#displayData').show();
+                }
+            }
+
+            // Display stored data when the page loads
+            displayStoredData();
+        });
+    </script>
+
+
+</body>
+
+</html>
